@@ -15,7 +15,7 @@ public struct ScannedCard: Equatable {
     public let expiryYear: String?
     public let name: String?
 
-    init(
+    public init(
         pan: String,
         expiryMonth: String? = nil,
         expiryYear: String? = nil,
@@ -28,8 +28,8 @@ public struct ScannedCard: Equatable {
     }
 }
 
-extension ScannedCard {
-    init(scannedCard: CreditCard) {
+public extension ScannedCard {
+    public init(scannedCard: CreditCard) {
         self.init(
             pan: scannedCard.number,
             expiryMonth: scannedCard.expiryMonth,
