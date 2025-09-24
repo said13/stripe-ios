@@ -9,44 +9,56 @@
 import CoreGraphics
 import Foundation
 
-struct UxFrameConfidenceValues {
-    let hasOcr: Bool
-    let uxPan: Double
-    let uxNoPan: Double
-    let uxNoCard: Double
+public struct UxFrameConfidenceValues {
+    public let hasOcr: Bool
+    public let uxPan: Double
+    public let uxNoPan: Double
+    public let uxNoCard: Double
 
-    func toArray() -> [Double] {
+    public init(
+        hasOcr: Bool,
+        uxPan: Double,
+        uxNoPan: Double,
+        uxNoCard: Double
+    ) {
+        self.hasOcr = hasOcr
+        self.uxPan = uxPan
+        self.uxNoPan = uxNoPan
+        self.uxNoCard = uxNoCard
+    }
+
+    public func toArray() -> [Double] {
         return [hasOcr ? 1.0 : 0.0, uxPan, uxNoPan, uxNoCard]
     }
 }
 
-enum CenteredCardState {
+public enum CenteredCardState {
     case numberSide
     case nonNumberSide
     case noCard
 
-    func hasCard() -> Bool {
+    public func hasCard() -> Bool {
         return self == .numberSide || self == .nonNumberSide
     }
 }
 
-struct CreditCardOcrPrediction {
-    let image: CGImage
-    let ocrCroppingRectangle: CGRect
-    let number: String?
-    let expiryMonth: String?
-    let expiryYear: String?
-    let name: String?
-    let computationTime: Double
-    let numberBoxes: [CGRect]?
-    let expiryBoxes: [CGRect]?
-    let nameBoxes: [CGRect]?
+public struct CreditCardOcrPrediction {
+    public let image: CGImage
+    public let ocrCroppingRectangle: CGRect
+    public let number: String?
+    public let expiryMonth: String?
+    public let expiryYear: String?
+    public let name: String?
+    public let computationTime: Double
+    public let numberBoxes: [CGRect]?
+    public let expiryBoxes: [CGRect]?
+    public let nameBoxes: [CGRect]?
 
     // this is only used by Card Verify and the Liveness check and filled in by the UxModel
-    var centeredCardState: CenteredCardState?
-    var uxFrameConfidenceValues: UxFrameConfidenceValues?
+    public var centeredCardState: CenteredCardState?
+    public var uxFrameConfidenceValues: UxFrameConfidenceValues?
 
-    init(
+    public init(
         image: CGImage,
         ocrCroppingRectangle: CGRect,
         number: String?,
@@ -105,7 +117,7 @@ struct CreditCardOcrPrediction {
         )
     }
 
-    static func emptyPrediction(cgImage: CGImage) -> CreditCardOcrPrediction {
+    public static func emptyPrediction(cgImage: CGImage) -> CreditCardOcrPrediction {
         CreditCardOcrPrediction(
             image: cgImage,
             ocrCroppingRectangle: CGRect(),
@@ -120,19 +132,19 @@ struct CreditCardOcrPrediction {
         )
     }
 
-    var expiryForDisplay: String? {
+    public var expiryForDisplay: String? {
         guard let month = expiryMonth, let year = expiryYear else { return nil }
         return "\(month)/\(year)"
     }
 
-    var expiryAsUInt: (UInt, UInt)? {
+    public var expiryAsUInt: (UInt, UInt)? {
         guard let month = expiryMonth.flatMap({ UInt($0) }) else { return nil }
         guard let year = expiryYear.flatMap({ UInt($0) }) else { return nil }
 
         return (month, year)
     }
 
-    var numberBox: CGRect? {
+    public var numberBox: CGRect? {
         let xmin = numberBoxes?.map { $0.minX }.min() ?? 0.0
         let xmax = numberBoxes?.map { $0.maxX }.max() ?? 0.0
         let ymin = numberBoxes?.map { $0.minY }.min() ?? 0.0
@@ -140,11 +152,11 @@ struct CreditCardOcrPrediction {
         return CGRect(x: xmin, y: ymin, width: (xmax - xmin), height: (ymax - ymin))
     }
 
-    var expiryBox: CGRect? {
+    public var expiryBox: CGRect? {
         return expiryBoxes.flatMap { $0.first }
     }
 
-    var numberBoxesInFullImageFrame: [CGRect]? {
+    public var numberBoxesInFullImageFrame: [CGRect]? {
         guard let boxes = numberBoxes else { return nil }
         let cropOrigin = ocrCroppingRectangle.origin
         return boxes.map {
@@ -157,7 +169,7 @@ struct CreditCardOcrPrediction {
         }
     }
 
-    static func likelyExpiry(_ string: String) -> (String, String)? {
+    public static func likelyExpiry(_ string: String) -> (String, String)? {
         guard let regex = try? NSRegularExpression(pattern: "^.*(0[1-9]|1[0-2])[./]([1-2][0-9])$")
         else {
             return nil
@@ -179,7 +191,7 @@ struct CreditCardOcrPrediction {
         return (String(string[range1]), String(string[range2]))
     }
 
-    static func pan(_ text: String) -> String? {
+    public static func pan(_ text: String) -> String? {
         let digitsAndSpace = text.reduce(true) { $0 && (($1 >= "0" && $1 <= "9") || $1 == " ") }
         let number = text.compactMap { $0 >= "0" && $0 <= "9" ? $0 : nil }.map { String($0) }
             .joined()

@@ -8,30 +8,30 @@ import CoreGraphics
 import Foundation
 import UIKit
 
-struct ScanStats {
-    var startTime = Date()
-    var scans = 0
-    var flatDigitsRecognized = 0
-    var flatDigitsDetected = 0
-    var embossedDigitsRecognized = 0
-    var embossedDigitsDetected = 0
-    var torchOn = false
-    var orientation = "Portrait"
-    var success: Bool?
-    var endTime: Date?
-    var model: String?
-    var algorithm: String?
-    var bin: String?
-    var lastFlatBoxes: [CGRect]?
-    var lastEmbossedBoxes: [CGRect]?
-    var deviceType: String?
-    var numberRect: CGRect?
-    var expiryBoxes: [CGRect]?
-    var cardsDetected = 0
-    var permissionGranted: Bool?
-    var userCanceled: Bool = false
+public struct ScanStats {
+    public var startTime = Date()
+    public var scans = 0
+    public var flatDigitsRecognized = 0
+    public var flatDigitsDetected = 0
+    public var embossedDigitsRecognized = 0
+    public var embossedDigitsDetected = 0
+    public var torchOn = false
+    public var orientation = "Portrait"
+    public var success: Bool?
+    public var endTime: Date?
+    public var model: String?
+    public var algorithm: String?
+    public var bin: String?
+    public var lastFlatBoxes: [CGRect]?
+    public var lastEmbossedBoxes: [CGRect]?
+    public var deviceType: String?
+    public var numberRect: CGRect?
+    public var expiryBoxes: [CGRect]?
+    public var cardsDetected = 0
+    public var permissionGranted: Bool?
+    public var userCanceled: Bool = false
 
-    init() {
+    public init() {
         var systemInfo = utsname()
         uname(&systemInfo)
         var deviceType = ""
@@ -50,7 +50,7 @@ struct ScanStats {
         self.deviceType = deviceType
     }
 
-    func toDictionaryForAnalytics() -> [String: Any] {
+    public func toDictionaryForAnalytics() -> [String: Any] {
         return [
             "scans": self.scans,
             "cards_detected": self.cardsDetected,
@@ -66,7 +66,7 @@ struct ScanStats {
         ]
     }
 
-    func duration() -> Double {
+    public func duration() -> Double {
         guard let endTime = self.endTime else {
             return 0.0
         }
@@ -74,7 +74,7 @@ struct ScanStats {
         return endTime.timeIntervalSince(self.startTime)
     }
 
-    func image(from base64String: String?) -> UIImage? {
+    public func image(from base64String: String?) -> UIImage? {
         guard let string = base64String else {
             return nil
         }

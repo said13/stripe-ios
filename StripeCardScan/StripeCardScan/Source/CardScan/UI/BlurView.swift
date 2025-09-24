@@ -7,20 +7,20 @@
 
 import UIKit
 
-class BlurView: UIView {
-    required init?(
+public class BlurView: UIView {
+    required public init?(
         coder aDecoder: NSCoder
     ) {
         super.init(coder: aDecoder)
     }
 
-    override init(
+    public override init(
         frame: CGRect
     ) {
         super.init(frame: frame)
     }
 
-    func maskToRoi(roi: UIView) {
+    public func maskToRoi(roi: UIView) {
         let maskLayer = CAShapeLayer()
         let path = CGMutablePath()
         let roiCornerRadius = roi.layer.cornerRadius
