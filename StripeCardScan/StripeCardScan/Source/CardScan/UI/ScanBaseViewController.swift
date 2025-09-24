@@ -67,7 +67,7 @@ open class ScanBaseViewController: UIViewController, AVCaptureVideoDataOutputSam
     var predictedName: String?
 
     // Child classes should override these functions
-    open func onScannedCard(
+    public func onScannedCard(
         number: String,
         expiryYear: String?,
         expiryMonth: String?,
