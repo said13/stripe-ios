@@ -29,7 +29,7 @@ public class CardScanSheet {
     /// Presents a sheet for a customer to scan their card
     /// - Parameter presentingViewController: The view controller to present a card scan sheet
     /// - Parameter completion: Called with the result of the scan after the card scan sheet is dismissed
-            public func present(
+    public func present(
         from presentingViewController: UIViewController,
         completion: @escaping (CardScanSheetResult) -> Void,
         animated: Bool = true
@@ -71,11 +71,11 @@ public class CardScanSheet {
 }
 
 extension CardScanSheet: SimpleScanDelegate {
-    func userDidCancelSimple(_ scanViewController: SimpleScanViewController) {
+    public func userDidCancelSimple(_ scanViewController: SimpleScanViewController) {
         completion?(.canceled)
     }
 
-    func userDidScanCardSimple(
+    public func userDidScanCardSimple(
         _ scanViewController: SimpleScanViewController,
         creditCard: CreditCard
     ) {

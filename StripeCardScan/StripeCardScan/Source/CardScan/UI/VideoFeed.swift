@@ -1,7 +1,7 @@
 import AVKit
 import VideoToolbox
 
-protocol AfterPermissions {
+public protocol AfterPermissions {
     func permissionDidComplete(granted: Bool, showedPrompt: Bool)
 }
 

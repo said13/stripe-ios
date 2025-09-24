@@ -1,11 +1,11 @@
 import Foundation
 
-enum ScanPerformance: Int {
+public enum ScanPerformance: Int {
     case fast
     case accurate
 }
 
-class ScanConfiguration: NSObject {
-    var runOnOldDevices = false
-    var setPreviouslyDeniedDevicesAsIncompatible = false
+public class ScanConfiguration: NSObject {
+    public var runOnOldDevices = false
+    public var setPreviouslyDeniedDevicesAsIncompatible = false
 }

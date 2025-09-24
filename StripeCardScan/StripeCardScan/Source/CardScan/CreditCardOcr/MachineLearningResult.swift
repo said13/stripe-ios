@@ -7,14 +7,14 @@
 
 import Foundation
 
-class MachineLearningResult {
-    let duration: Double
-    let frames: Int
-    var framePerSecond: Double {
+public class MachineLearningResult {
+    public let duration: Double
+    public let frames: Int
+    public var framePerSecond: Double {
         return Double(frames) / duration
     }
 
-    init(
+    public init(
         duration: Double,
         frames: Int
     ) {

@@ -56,7 +56,7 @@ import UIKit
 // this code and customize it to fit your needs -- we're fine with whatever makes
 // the most sense for your app.
 
-protocol SimpleScanDelegate: AnyObject {
+public protocol SimpleScanDelegate: AnyObject {
     func userDidCancelSimple(_ scanViewController: SimpleScanViewController)
     func userDidScanCardSimple(
         _ scanViewController: SimpleScanViewController,
@@ -64,20 +64,20 @@ protocol SimpleScanDelegate: AnyObject {
     )
 }
 
-class SimpleScanViewController: ScanBaseViewController {
+open class SimpleScanViewController: ScanBaseViewController {
 
     // used by ScanBase
-    var previewView: PreviewView = PreviewView()
-    var blurView: BlurView = BlurView()
-    var roiView: UIView = UIView()
-    var cornerView: CornerView?
+    public var previewView: PreviewView = PreviewView()
+    public var blurView: BlurView = BlurView()
+    public var roiView: UIView = UIView()
+    public var cornerView: CornerView?
 
     // our UI components
-    var descriptionText = UILabel()
-    var privacyLinkText = UITextView()
-    var privacyLinkTextHeightConstraint: NSLayoutConstraint?
+    public var descriptionText = UILabel()
+    public var privacyLinkText = UITextView()
+    public var privacyLinkTextHeightConstraint: NSLayoutConstraint?
 
-    var closeButton: UIButton = {
+    public var closeButton: UIButton = {
         var button = UIButton(type: .system)
         button.setTitleColor(.white, for: .normal)
         button.tintColor = .white
@@ -85,7 +85,7 @@ class SimpleScanViewController: ScanBaseViewController {
         return button
     }()
 
-    var torchButton: UIButton = {
+    public var torchButton: UIButton = {
         var button = UIButton(type: .system)
         button.setTitleColor(.white, for: .normal)
         button.tintColor = .white
@@ -94,29 +94,29 @@ class SimpleScanViewController: ScanBaseViewController {
     }()
 
     private var debugView: UIImageView?
-    var enableCameraPermissionsButton = UIButton(type: .system)
-    var enableCameraPermissionsText = UILabel()
+    public var enableCameraPermissionsButton = UIButton(type: .system)
+    public var enableCameraPermissionsText = UILabel()
 
     // Dynamic card details
-    var numberText = UILabel()
-    var expiryText = UILabel()
-    var nameText = UILabel()
-    var expiryLayoutView = UIView()
+    public var numberText = UILabel()
+    public var expiryText = UILabel()
+    public var nameText = UILabel()
+    public var expiryLayoutView = UIView()
 
     // String
-    static var descriptionString = String.Localized.scan_card_title_capitalization
-    static var enableCameraPermissionString = String.Localized.enable_camera_access
-    static var enableCameraPermissionsDescriptionString = String.Localized.update_phone_settings
-    static var closeButtonString = String.Localized.close
-    static var torchButtonString = String.Localized.torch
-    static var privacyLinkString = String.Localized.scanCardExpectedPrivacyLinkText()
+    public static var descriptionString = String.Localized.scan_card_title_capitalization
+    public static var enableCameraPermissionString = String.Localized.enable_camera_access
+    public static var enableCameraPermissionsDescriptionString = String.Localized.update_phone_settings
+    public static var closeButtonString = String.Localized.close
+    public static var torchButtonString = String.Localized.torch
+    public static var privacyLinkString = String.Localized.scanCardExpectedPrivacyLinkText()
 
-    weak var delegate: SimpleScanDelegate?
-    var scanPerformancePriority: ScanPerformance = .fast
-    var maxErrorCorrectionDuration: Double = 4.0
+    public weak var delegate: SimpleScanDelegate?
+    public var scanPerformancePriority: ScanPerformance = .fast
+    public var maxErrorCorrectionDuration: Double = 4.0
 
     // MARK: Inits
-    override init() {
+    public override init() {
         super.init()
         if UIDevice.current.userInterfaceIdiom == .pad {
             // For the iPad you can use the full screen style but you have to select "requires full screen" in
@@ -128,13 +128,14 @@ class SimpleScanViewController: ScanBaseViewController {
         }
     }
 
-    required init?(
+    @available(*, unavailable)
+    required public init?(
         coder: NSCoder
     ) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUiComponents()
@@ -159,12 +160,12 @@ class SimpleScanViewController: ScanBaseViewController {
     //  Targets gets added on every setUpUi call.
     //
     //  Figure out a better way of allow custom buttons programmatically instead of whole UI buttons.
-    override func viewDidDisappear(_ animated: Bool) {
+    open override func viewDidDisappear(_ animated: Bool) {
         closeButton.removeTarget(self, action: #selector(cancelButtonPress), for: .touchUpInside)
         torchButton.removeTarget(self, action: #selector(torchButtonPress), for: .touchUpInside)
     }
 
-    func setUpMainLoop(errorCorrectionDuration: Double) {
+    open func setUpMainLoop(errorCorrectionDuration: Double) {
         if scanPerformancePriority == .accurate {
             let mainLoop = self.mainLoop as? OcrMainLoop
             mainLoop?.errorCorrection = ErrorCorrection(
@@ -176,7 +177,7 @@ class SimpleScanViewController: ScanBaseViewController {
     }
 
     // MARK: - Visual and UI event setup for UI components
-    func setupUiComponents() {
+    open func setupUiComponents() {
         view.backgroundColor = .white
         regionOfInterestCornerRadius = 15.0
 
@@ -204,11 +205,11 @@ class SimpleScanViewController: ScanBaseViewController {
         }
     }
 
-    func setupPreviewViewUi() {
+    open func setupPreviewViewUi() {
         // no ui setup
     }
 
-    func setupBlurViewUi() {
+    open func setupBlurViewUi() {
         blurView.backgroundColor = #colorLiteral(
             red: 0.2411109507,
             green: 0.271378696,
@@ -217,26 +218,26 @@ class SimpleScanViewController: ScanBaseViewController {
         )
     }
 
-    func setupRoiViewUi() {
+    open func setupRoiViewUi() {
         roiView.layer.borderColor = UIColor.white.cgColor
     }
 
-    func setupCloseButtonUi() {
+    open func setupCloseButtonUi() {
         closeButton.addTarget(self, action: #selector(cancelButtonPress), for: .touchUpInside)
     }
 
-    func setupTorchButtonUi() {
+    open func setupTorchButtonUi() {
         torchButton.addTarget(self, action: #selector(torchButtonPress), for: .touchUpInside)
     }
 
-    func setupDescriptionTextUi() {
+    open func setupDescriptionTextUi() {
         descriptionText.text = SimpleScanViewController.descriptionString
         descriptionText.textColor = .white
         descriptionText.textAlignment = .center
         descriptionText.font = descriptionText.font.withSize(30)
     }
 
-    func setupCardDetailsUi() {
+    open func setupCardDetailsUi() {
         numberText.isHidden = true
         numberText.textColor = .white
         numberText.textAlignment = .center
@@ -254,7 +255,7 @@ class SimpleScanViewController: ScanBaseViewController {
         nameText.font = expiryText.font.withSize(20)
     }
 
-    func setupDenyUi() {
+    open func setupDenyUi() {
         let text = SimpleScanViewController.enableCameraPermissionString
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttribute(
@@ -298,7 +299,7 @@ class SimpleScanViewController: ScanBaseViewController {
         enableCameraPermissionsText.isHidden = true
     }
 
-    func setupPrivacyLinkTextUi() {
+    open func setupPrivacyLinkTextUi() {
         if let attributedString = SimpleScanViewController.privacyLinkString {
             privacyLinkText.attributedText = attributedString
         }
@@ -317,14 +318,14 @@ class SimpleScanViewController: ScanBaseViewController {
         privacyLinkText.clipsToBounds = true
     }
 
-    func setupDebugViewUi() {
+    open func setupDebugViewUi() {
         debugView = UIImageView()
         guard let debugView = debugView else { return }
         self.view.addSubview(debugView)
     }
 
     // MARK: - Autolayout constraints
-    func setupConstraints() {
+    open func setupConstraints() {
         let children: [UIView] = [
             previewView, blurView, roiView, descriptionText, closeButton, torchButton, numberText,
             expiryText, nameText, expiryLayoutView, enableCameraPermissionsButton,
@@ -349,16 +350,16 @@ class SimpleScanViewController: ScanBaseViewController {
         }
     }
 
-    func setupPreviewViewConstraints() {
+    open func setupPreviewViewConstraints() {
         // make it full screen
         previewView.setAnchorsEqual(to: self.view)
     }
 
-    func setupBlurViewConstraints() {
+    open func setupBlurViewConstraints() {
         blurView.setAnchorsEqual(to: self.previewView)
     }
 
-    func setupRoiViewConstraints() {
+    open func setupRoiViewConstraints() {
         roiView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         roiView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive =
             true
@@ -367,19 +368,19 @@ class SimpleScanViewController: ScanBaseViewController {
         roiView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
 
-    func setupCloseButtonConstraints() {
+    open func setupCloseButtonConstraints() {
         let margins = view.layoutMarginsGuide
         closeButton.topAnchor.constraint(equalTo: margins.topAnchor, constant: 16.0).isActive = true
         closeButton.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
     }
 
-    func setupTorchButtonConstraints() {
+    open func setupTorchButtonConstraints() {
         let margins = view.layoutMarginsGuide
         torchButton.topAnchor.constraint(equalTo: margins.topAnchor, constant: 16.0).isActive = true
         torchButton.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
     }
 
-    func setupDescriptionTextConstraints() {
+    open func setupDescriptionTextConstraints() {
         descriptionText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32).isActive =
             true
         descriptionText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32)
@@ -388,7 +389,7 @@ class SimpleScanViewController: ScanBaseViewController {
             true
     }
 
-    func setupCardDetailsConstraints() {
+    open func setupCardDetailsConstraints() {
         numberText.leadingAnchor.constraint(equalTo: roiView.leadingAnchor, constant: 32).isActive =
             true
         numberText.trailingAnchor.constraint(equalTo: roiView.trailingAnchor, constant: -32)
@@ -411,7 +412,7 @@ class SimpleScanViewController: ScanBaseViewController {
         expiryText.centerYAnchor.constraint(equalTo: expiryLayoutView.centerYAnchor).isActive = true
     }
 
-    func setupDenyConstraints() {
+    open func setupDenyConstraints() {
         NSLayoutConstraint.activate([
             enableCameraPermissionsButton.topAnchor.constraint(
                 equalTo: privacyLinkText.bottomAnchor,
@@ -428,7 +429,7 @@ class SimpleScanViewController: ScanBaseViewController {
         ])
     }
 
-    func setupPrivacyLinkTextConstraints() {
+    open func setupPrivacyLinkTextConstraints() {
         NSLayoutConstraint.activate([
             privacyLinkText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
             privacyLinkText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
@@ -440,7 +441,7 @@ class SimpleScanViewController: ScanBaseViewController {
         )
     }
 
-    func setupDebugViewConstraints() {
+    open func setupDebugViewConstraints() {
         guard let debugView = debugView else { return }
         debugView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -467,7 +468,7 @@ class SimpleScanViewController: ScanBaseViewController {
         delegate?.userDidScanCardSimple(self, creditCard: card)
     }
 
-    func showScannedCardDetails(prediction: CreditCardOcrPrediction) {
+    open func showScannedCardDetails(prediction: CreditCardOcrPrediction) {
         guard let number = prediction.number else {
             return
         }
@@ -492,7 +493,7 @@ class SimpleScanViewController: ScanBaseViewController {
         }
     }
 
-    override func prediction(
+    open override func prediction(
         prediction: CreditCardOcrPrediction,
         imageData: ScannedCardImageData,
         state: MainLoopState
@@ -502,7 +503,7 @@ class SimpleScanViewController: ScanBaseViewController {
         showScannedCardDetails(prediction: prediction)
     }
 
-    override func onCameraPermissionDenied(showedPrompt: Bool) {
+    open override func onCameraPermissionDenied(showedPrompt: Bool) {
         descriptionText.isHidden = true
         torchButton.isHidden = true
 
@@ -512,17 +513,17 @@ class SimpleScanViewController: ScanBaseViewController {
     }
 
     // MARK: - UI event handlers
-    @objc func cancelButtonPress() {
+    @objc open func cancelButtonPress() {
         delegate?.userDidCancelSimple(self)
         self.cancelScan()
     }
 
-    @objc func torchButtonPress() {
+    @objc open func torchButtonPress() {
         toggleTorch()
     }
 
     /// Warning: if the user navigates to settings and updates the setting, it'll suspend your app.
-    @objc func enableCameraPermissionsPress() {
+    @objc open func enableCameraPermissionsPress() {
         guard let settingsUrl = URL(string: UIApplication.openSettingsURLString),
             UIApplication.shared.canOpenURL(settingsUrl)
         else {
@@ -534,7 +535,7 @@ class SimpleScanViewController: ScanBaseViewController {
 }
 
 extension UIView {
-    func setAnchorsEqual(to otherView: UIView) {
+    public func setAnchorsEqual(to otherView: UIView) {
         self.topAnchor.constraint(equalTo: otherView.topAnchor).isActive = true
         self.leadingAnchor.constraint(equalTo: otherView.leadingAnchor).isActive = true
         self.trailingAnchor.constraint(equalTo: otherView.trailingAnchor).isActive = true

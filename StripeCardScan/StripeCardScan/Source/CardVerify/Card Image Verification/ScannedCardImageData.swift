@@ -9,13 +9,13 @@ import Foundation
 import UIKit
 
 /// Data structure representing an image frame captured during the scanning flow.
-struct ScannedCardImageData {
+public struct ScannedCardImageData {
     /// The image of the scanned card after it has been converted from AVCaptureSession to the video preview layer coordinate system
-    let previewLayerImage: CGImage
+    public let previewLayerImage: CGImage
     /// The viewfinder bounds after it has been converted from the AVCaptureSession to the video preview layer coordinate system
-    let previewLayerViewfinderRect: CGRect
+    public let previewLayerViewfinderRect: CGRect
 
-    init(
+    public init(
         previewLayerImage: CGImage,
         previewLayerViewfinderRect: CGRect
     ) {
@@ -23,7 +23,7 @@ struct ScannedCardImageData {
         self.previewLayerViewfinderRect = previewLayerViewfinderRect
     }
 
-    init?(
+    public init?(
         captureDeviceImage: CGImage,
         viewfinderRect: CGRect,
         previewViewRect: CGRect
@@ -57,9 +57,9 @@ struct ScannedCardImageData {
 /// TODO(jaimepark): Update conversion methods to calculate based on only AVCaputureSessionPreviewLayer.
 /// Currently, .FullScreenAndRoi returns both the converted image and view finder rect. Once the conversion logic
 /// is updated, the params will be updated and these functions will be DRY-ed up.
-extension ScannedCardImageData {
+public extension ScannedCardImageData {
     /// Using legacy SDK logic, returns the AVCaptureDevice-to-preview view layer converted image
-    static func convertToPreviewLayerImage(
+    public static func convertToPreviewLayerImage(
         captureDeviceImage: CGImage,
         viewfinderRect: CGRect,
         previewViewRect: CGRect
@@ -77,7 +77,7 @@ extension ScannedCardImageData {
     }
 
     /// Using legacy SDK logic, returns the AVCaptureDevice-to-preview view layer converted view finder rect
-    static func convertToPreviewLayerRect(
+    public static func convertToPreviewLayerRect(
         captureDeviceImage: CGImage,
         viewfinderRect: CGRect,
         previewViewRect: CGRect

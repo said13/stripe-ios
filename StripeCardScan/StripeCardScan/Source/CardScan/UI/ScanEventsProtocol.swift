@@ -9,7 +9,7 @@
 
 import CoreGraphics
 
-protocol ScanEvents {
+public protocol ScanEvents {
     mutating func onNumberRecognized(
         number: String,
         expiry: Expiry?,

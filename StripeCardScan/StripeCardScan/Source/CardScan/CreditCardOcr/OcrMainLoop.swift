@@ -64,7 +64,7 @@
 
 import UIKit
 
-protocol OcrMainLoopDelegate: AnyObject {
+public protocol OcrMainLoopDelegate: AnyObject {
     func complete(creditCardOcrResult: CreditCardOcrResult)
     func prediction(
         prediction: CreditCardOcrPrediction,

@@ -44,8 +44,8 @@
 import AVFoundation
 import UIKit
 
-class PreviewView: UIView {
-    var videoPreviewLayer: AVCaptureVideoPreviewLayer {
+public class PreviewView: UIView {
+    public var videoPreviewLayer: AVCaptureVideoPreviewLayer {
         guard let layer = layer as? AVCaptureVideoPreviewLayer else {
             fatalError(
                 "Expected `AVCaptureVideoPreviewLayer` type for layer. Check PreviewView.layerClass implementation."
@@ -55,7 +55,7 @@ class PreviewView: UIView {
         return layer
     }
 
-    var session: AVCaptureSession? {
+    public var session: AVCaptureSession? {
         get {
             return videoPreviewLayer.session
         }
@@ -66,13 +66,13 @@ class PreviewView: UIView {
 
     // MARK: Initialization
 
-    override init(
+    public override init(
         frame: CGRect
     ) {
         super.init(frame: frame)
     }
 
-    required init?(
+    required public init?(
         coder aDecoder: NSCoder
     ) {
         super.init(coder: aDecoder)
@@ -80,11 +80,11 @@ class PreviewView: UIView {
 
     // MARK: UIView
 
-    override class var layerClass: AnyClass {
+    public override class var layerClass: AnyClass {
         return AVCaptureVideoPreviewLayer.self
     }
 
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
     }
 }

@@ -1,19 +1,25 @@
 import Foundation
 
-struct Expiry: Hashable {
-    let string: String
-    let month: UInt
-    let year: UInt
+public struct Expiry: Hashable {
+    public let string: String
+    public let month: UInt
+    public let year: UInt
 
-    static func == (lhs: Expiry, rhs: Expiry) -> Bool {
+    public init(string: String, month: UInt, year: UInt) {
+        self.string = string
+        self.month = month
+        self.year = year
+    }
+
+    public static func == (lhs: Expiry, rhs: Expiry) -> Bool {
         return lhs.string == rhs.string
     }
 
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         self.string.hash(into: &hasher)
     }
 
-    func display() -> String {
+    public func display() -> String {
         let twoDigitYear = self.year % 100
         return String(format: "%02d/%02d", self.month, twoDigitYear)
     }

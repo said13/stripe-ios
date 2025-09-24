@@ -8,17 +8,17 @@
 
 import Foundation
 
-class CreditCardOcrResult: MachineLearningResult {
-    let mostRecentPrediction: CreditCardOcrPrediction
-    let number: String
-    let expiry: String?
-    let name: String?
-    let state: MainLoopState
+public class CreditCardOcrResult: MachineLearningResult {
+    public let mostRecentPrediction: CreditCardOcrPrediction
+    public let number: String
+    public let expiry: String?
+    public let name: String?
+    public let state: MainLoopState
 
     // this is only used by Card Verify and the Liveness check and filled in by the UxModel
-    var hasCenteredCard: CenteredCardState?
+    public var hasCenteredCard: CenteredCardState?
 
-    init(
+    public init(
         mostRecentPrediction: CreditCardOcrPrediction,
         number: String,
         expiry: String?,
@@ -35,14 +35,14 @@ class CreditCardOcrResult: MachineLearningResult {
         super.init(duration: duration, frames: frames)
     }
 
-    var expiryMonth: String? {
+    public var expiryMonth: String? {
         return expiry.flatMap { $0.split(separator: "/").first.map { String($0) } }
     }
-    var expiryYear: String? {
+    public var expiryYear: String? {
         return expiry.flatMap { $0.split(separator: "/").last.map { String($0) } }
     }
 
-    static func finishedWithNonNumberSideCard(
+    public static func finishedWithNonNumberSideCard(
         prediction: CreditCardOcrPrediction,
         duration: Double,
         frames: Int
