@@ -453,7 +453,7 @@ open class SimpleScanViewController: ScanBaseViewController {
     }
 
     // MARK: - Override some ScanBase functions
-    override func onScannedCard(
+    override public func onScannedCard(
         number: String,
         expiryYear: String?,
         expiryMonth: String?,
