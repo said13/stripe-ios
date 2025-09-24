@@ -17,7 +17,7 @@ class BrowseViewController: UITableViewController
 {
 
     enum Demo: Int {
-        static var count: Int = 8
+        static var count: Int = 9
 
         case STPPaymentCardTextField
         case STPPaymentCardTextFieldWithCBC
@@ -25,6 +25,7 @@ class BrowseViewController: UITableViewController
         case STPCardFormViewController
         case STPCardFormViewControllerCBC
         case SwiftUICardFormViewController
+        case SwiftUICardScanViewController
 
         var title: String {
             switch self {
@@ -34,6 +35,7 @@ class BrowseViewController: UITableViewController
             case .STPCardFormViewController: return "Card Form"
             case .STPCardFormViewControllerCBC: return "Card Form (CBC)"
             case .SwiftUICardFormViewController: return "Card Form (SwiftUI)"
+            case .SwiftUICardScanViewController: return "Card Scan (SwiftUI)"
             }
         }
 
@@ -45,6 +47,7 @@ class BrowseViewController: UITableViewController
             case .STPCardFormViewController: return "STPCardFormViewController"
             case .STPCardFormViewControllerCBC: return "STPCardFormViewController (CBC)"
             case .SwiftUICardFormViewController: return "STPCardFormView.Representable"
+            case .SwiftUICardScanViewController: return "SimpleScanViewController"
             }
         }
     }
@@ -113,6 +116,10 @@ class BrowseViewController: UITableViewController
             present(navigationController, animated: true, completion: nil)
         case .SwiftUICardFormViewController:
             let controller = UIHostingController(rootView: SwiftUICardFormView())
+            present(controller, animated: true, completion: nil)
+        case .SwiftUICardScanViewController:
+            let controller = UIHostingController(rootView: SwiftUICardScanView())
+            controller.modalPresentationStyle = .fullScreen
             present(controller, animated: true, completion: nil)
         }
     }
