@@ -408,7 +408,7 @@ open class ScanBaseViewController: UIViewController, AVCaptureVideoDataOutputSam
         return self.ocrMainLoop()?.scanStats ?? ScanStats()
     }
 
-    func captureOutput(
+    public func captureOutput(
         _ output: AVCaptureOutput,
         didOutput sampleBuffer: CMSampleBuffer,
         from connection: AVCaptureConnection
